@@ -18,7 +18,7 @@ router.get("/:p_id", (req, res) => {
     }
 
     // Prepare and execute the SQL query
-    query = "SELECT * FROM patients WHERE p_id = ?";
+    query = "SELECT * FROM vaccinations WHERE p_id = ?";
     connection.query(query, [p_id], (err, results) => {
       connection.release();
       if (err) {

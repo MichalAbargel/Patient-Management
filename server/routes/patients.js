@@ -67,6 +67,7 @@ router.post("/", (req, res) => {
   const {
     id,
     name,
+    city,
     address,
     birth_date,
     phone,
@@ -77,7 +78,15 @@ router.post("/", (req, res) => {
   } = req.body;
 
   // Basic Validation (Add more validations as per your requirement)
-  if (!id || !name || address || birth_date || phone || mobile_phone == null) {
+  if (
+    !id ||
+    !name ||
+    !city ||
+    !address ||
+    !birth_date ||
+    !phone ||
+    !mobile_phone
+  ) {
     return res.status(400).send("Required fields are missing");
   }
   // Connect to the database
@@ -90,13 +99,14 @@ router.post("/", (req, res) => {
     }
     // Prepare SQL query
     const query =
-      "INSERT INTO patients (id, name, address, birth_date, phone, mobile_phone, positive_result_date, recovery_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO patients (id, name, city, address, birth_date, phone, mobile_phone, positive_result_date, recovery_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     // Execute SQL query to insert new patient
     connection.query(
       query,
       [
         id,
         name,
+        city,
         address,
         birth_date,
         phone,
@@ -144,6 +154,7 @@ router.put("/:id", (req, res) => {
   // Retrieve patient data from request body
   const {
     name,
+    city,
     address,
     birth_date,
     phone,
@@ -162,12 +173,13 @@ router.put("/:id", (req, res) => {
     }
     // Prepare SQL query
     const query =
-      "UPDATE patients SET name = ?, address = ?, birth_date = ?, phone = ?,mobile_phone = ?, positive_result_date = ?, recovery_date = ? WHERE id = ?";
+      "UPDATE patients SET name = ?, city = ?, address = ?, birth_date = ?, phone = ?,mobile_phone = ?, positive_result_date = ?, recovery_date = ? WHERE id = ?";
     // Execute SQL query to insert new patient
     connection.query(
       query,
       [
         name,
+        city,
         address,
         birth_date,
         phone,
