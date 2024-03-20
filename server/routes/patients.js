@@ -3,6 +3,22 @@ const router = express.Router();
 router.use(express.json());
 const db = require("../database/db");
 
+const legalDate = (inputDate) => {
+  if (inputDate != null || inputDate != "") {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+    const str = `${year}-${month}-${day}`;
+    if (str === `NaN-NaN-NaN`) {
+      return null;
+    } else {
+      return str;
+    }
+  }
+  return null;
+};
+
 // GET all patients
 router.get("/", (req, res) => {
   // Connect to the database
@@ -72,10 +88,11 @@ router.post("/", (req, res) => {
     birth_date,
     phone,
     mobile_phone,
-    vaccinations,
     positive_result_date,
     recovery_date,
   } = req.body;
+
+  console.log(req.body);
 
   // Basic Validation (Add more validations as per your requirement)
   if (
@@ -108,11 +125,11 @@ router.post("/", (req, res) => {
         name,
         city,
         address,
-        birth_date,
+        legalDate(birth_date),
         phone,
         mobile_phone,
-        positive_result_date,
-        recovery_date,
+        legalDate(positive_result_date),
+        legalDate(recovery_date),
       ],
       (err, results) => {
         connection.release();
@@ -122,26 +139,25 @@ router.post("/", (req, res) => {
             .status(500)
             .send("An error occurred while executing the query");
         }
-
-        // Execute SQL query to insert new patient vaccinations info
-        // up to 4 times
-        for (let i = 0; i < vaccinations.lenght; i++) {
-          const query =
-            "INSERT INTO vaccinations (patient_id, vac_date, vac_manufacturer) VALUES (?, ?, ?, ?, ?, ?)";
-          connection.query(
-            query,
-            [id, vaccinations[i].vac_date, vaccinations[i].vac_manufacturer],
-            (err, v_results) => {
-              connection.release();
-              if (err) {
-                console.error("Error executing query:", err);
-                return res
-                  .status(500)
-                  .send("An error occurred while executing the query");
-              }
-            }
-          );
-        }
+        // // Execute SQL query to insert new patient vaccinations info
+        // // up to 4 times
+        // for (let i = 0; i < vaccinations.lenght; i++) {
+        //   const query =
+        //     "INSERT INTO vaccinations (patient_id, vac_date, vac_manufacturer) VALUES (?, ?, ?, ?, ?, ?)";
+        //   connection.query(
+        //     query,
+        //     [id, vaccinations[i].vac_date, vaccinations[i].vac_manufacturer],
+        //     (err, v_results) => {
+        //       connection.release();
+        //       if (err) {
+        //         console.error("Error executing query:", err);
+        //         return res
+        //           .status(500)
+        //           .send("An error occurred while executing the query");
+        //       }
+        //     }
+        //   );
+        // }
         res.status(201).send({ id: results.insertId });
       }
     );
@@ -163,6 +179,20 @@ router.put("/:id", (req, res) => {
     recovery_date,
   } = req.body;
 
+  console.log(req.body);
+  // Basic Validation (Add more validations as per your requirement)
+  if (
+    !id ||
+    !name ||
+    !city ||
+    !address ||
+    !birth_date ||
+    !phone ||
+    !mobile_phone
+  ) {
+    return res.status(400).send("Required fields are missing");
+  }
+
   // Connect to the database
   db.getConnection((err, connection) => {
     if (err) {
@@ -173,7 +203,7 @@ router.put("/:id", (req, res) => {
     }
     // Prepare SQL query
     const query =
-      "UPDATE patients SET name = ?, city = ?, address = ?, birth_date = ?, phone = ?,mobile_phone = ?, positive_result_date = ?, recovery_date = ? WHERE id = ?";
+      "UPDATE patients SET name = ?, city = ?, address = ?, birth_date = ?, phone = ?, mobile_phone = ?, positive_result_date = ?, recovery_date = ? WHERE id = ?";
     // Execute SQL query to insert new patient
     connection.query(
       query,
@@ -181,11 +211,11 @@ router.put("/:id", (req, res) => {
         name,
         city,
         address,
-        birth_date,
+        legalDate(birth_date),
         phone,
         mobile_phone,
-        positive_result_date,
-        recovery_date,
+        legalDate(positive_result_date),
+        legalDate(recovery_date),
         id,
       ],
       (err, results) => {
@@ -214,7 +244,7 @@ router.delete("/:id", (req, res) => {
     }
 
     // Prepare and execute the SQL query
-    query = "DELETE * FROM patients WHERE id = ?";
+    query = "DELETE FROM patients WHERE id = ?";
     connection.query(query, [id], (err, results) => {
       connection.release();
       if (err) {

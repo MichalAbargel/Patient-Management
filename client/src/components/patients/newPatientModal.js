@@ -11,11 +11,12 @@ const NewPatientModal = ({
 }) => {
   // TODO - API for cities?
   const sitysList = ["Tel Aviv", "Jerusalem"];
-  const [isReadOnly, setIsReadOnly] = useState(true);
+  const [isReadOnly, setIsReadOnly] = useState(!addingMode);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     const finalValue = value;
+    console.log(finalValue);
     setNewPatient((prev) => ({ ...prev, [name]: finalValue }));
   };
 
@@ -27,8 +28,12 @@ const NewPatientModal = ({
     });
   };
 
-  const legalDate = (date) => {
-    return new Date(date).toISOString().split("T")[0];
+  const legalDate = (inputDate) => {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   if (!isOpen) return null;
@@ -37,6 +42,19 @@ const NewPatientModal = ({
     <div>
       <div>
         <h2>{newPatient.name}</h2>
+        <div>
+          <label>ID</label>
+          {isReadOnly ? (
+            <label>{newPatient.id}</label>
+          ) : (
+            <input
+              name="id"
+              type="text"
+              value={newPatient.id}
+              onChange={handleInputChange}
+            />
+          )}
+        </div>
         <div>
           <label>Name</label>
           {isReadOnly ? (
@@ -55,7 +73,6 @@ const NewPatientModal = ({
             <label>{newPatient.city}</label>
           ) : (
             <label>
-              {console.log(newPatient.city)}
               <select
                 name="city"
                 value={newPatient.city}
@@ -92,7 +109,7 @@ const NewPatientModal = ({
             <label>{formattedDate(newPatient.birth_date)}</label>
           ) : (
             <input
-              name="birth date"
+              name="birth_date"
               type="date"
               value={legalDate(newPatient.birth_date)}
               onChange={handleInputChange}
@@ -118,7 +135,7 @@ const NewPatientModal = ({
             <label>{newPatient.mobile_phone}</label>
           ) : (
             <input
-              name="mobile phone"
+              name="mobile_phone"
               type="text"
               value={newPatient.mobile_phone}
               onChange={handleInputChange}
@@ -127,13 +144,18 @@ const NewPatientModal = ({
         </div>
         <div>
           <label>Positive result date</label>
+          {console.log(newPatient.positive_result_date)}
           {isReadOnly ? (
             <label>{formattedDate(newPatient.positive_result_date)}</label>
           ) : (
             <input
-              name="Positive result date"
+              name="positive_result_date"
               type="date"
-              value={legalDate(newPatient.positive_result_date)}
+              value={
+                newPatient.positive_result_date
+                  ? legalDate(newPatient.positive_result_date)
+                  : ""
+              }
               onChange={handleInputChange}
             />
           )}
@@ -144,7 +166,7 @@ const NewPatientModal = ({
             <label>{formattedDate(newPatient.recovery_date)}</label>
           ) : (
             <input
-              name="Recovery date"
+              name="recovery_date"
               type="date"
               value={legalDate(newPatient.recovery_date)}
               onChange={handleInputChange}
@@ -152,7 +174,13 @@ const NewPatientModal = ({
           )}
         </div>
         <div>
-          <button onClick={savePatient}>Save</button>
+          <button
+            onClick={() => {
+              savePatient();
+            }}
+          >
+            Save
+          </button>
           {!addingMode && (
             <button
               onClick={() => {
@@ -165,7 +193,7 @@ const NewPatientModal = ({
           {!addingMode && (
             <button
               onClick={() => {
-                deletePatient(newPatient.id);
+                deletePatient();
               }}
             >
               Delete

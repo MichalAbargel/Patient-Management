@@ -26,6 +26,7 @@ const Patients = () => {
   const closeModal = () => {
     setEditingIndex(-1);
     setNewPatient(defaultPatient);
+    setAddingMode(false);
     setIsModalOpen(false);
   };
 
@@ -53,7 +54,7 @@ const Patients = () => {
 
   const addPatient = async () => {
     try {
-      const response = await fetch(`${URL}}`, {
+      const response = await fetch(`${URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,6 +64,7 @@ const Patients = () => {
 
       if (response.ok) {
         setPatients((prevPatients) => [...prevPatients, newPatient]);
+        closeModal();
       } else {
         // Handle duplicate entry error
         if (response.status === 409) {
@@ -81,13 +83,14 @@ const Patients = () => {
     }
   };
 
-  const updatePatient = async (id) => {
+  const updatePatient = async () => {
     try {
-      const response = await fetch(`${URL}/${id}`, {
+      const response = await fetch(`${URL}/${newPatient.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(newPatient),
       });
       if (response.ok) {
         //Update the patients's list locally
@@ -96,7 +99,7 @@ const Patients = () => {
         setPatients(updatePatients);
         // Reset states after both successful and failed update
         setNewPatient(defaultPatient);
-        setEditingIndex(-1);
+        closeModal();
       } else {
         alert(
           "An error occurred while updating the patient. Please try again."
@@ -110,20 +113,20 @@ const Patients = () => {
   };
 
   const savePatient = () => {
-    if (editingIndex === -1) {
+    if (addingMode) {
       // Mode:add new patient
       addPatient();
     } else {
       if (newPatient.id) {
         // Send a request to the server to update the patient
-        updatePatient(newPatient.id);
+        updatePatient();
       }
     }
   };
 
-  const deletePatient = async (id) => {
+  const deletePatient = async () => {
     try {
-      const response = await fetch(`${URL}/${id}`, {
+      const response = await fetch(`${URL}/${newPatient.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -135,6 +138,8 @@ const Patients = () => {
         const newPatients = [...patients];
         newPatients.splice(editingIndex, 1);
         setPatients(newPatients);
+        setEditingIndex(-1);
+        closeModal();
       } else {
         alert(
           "An error occurred while deleting the patient. Please try again."
@@ -205,6 +210,8 @@ const Patients = () => {
       <button
         onClick={() => {
           setAddingMode(true);
+          console.log("set true");
+          setNewPatient(defaultPatient);
           openModal();
         }}
       >
