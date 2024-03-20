@@ -10,13 +10,25 @@ const NewPatientModal = ({
   addingMode,
 }) => {
   // TODO - API for cities?
-  const sitysList = [];
+  const sitysList = ["Tel Aviv", "Jerusalem"];
   const [isReadOnly, setIsReadOnly] = useState(true);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    const finalValue = name === "units" ? Number(value) : value;
+    const finalValue = value;
     setNewPatient((prev) => ({ ...prev, [name]: finalValue }));
+  };
+
+  const formattedDate = (date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
+
+  const legalDate = (date) => {
+    return new Date(date).toISOString().split("T")[0];
   };
 
   if (!isOpen) return null;
@@ -43,13 +55,14 @@ const NewPatientModal = ({
             <label>{newPatient.city}</label>
           ) : (
             <label>
+              {console.log(newPatient.city)}
               <select
                 name="city"
                 value={newPatient.city}
                 onChange={handleInputChange}
               >
                 <option value="" disabled>
-                  Select Sity
+                  Select City
                 </option>
                 {sitysList.map((subject) => (
                   <option key={subject} value={subject}>
@@ -76,12 +89,12 @@ const NewPatientModal = ({
         <div>
           <label>Birth Date</label>
           {isReadOnly ? (
-            <label>{newPatient.birth_date}</label>
+            <label>{formattedDate(newPatient.birth_date)}</label>
           ) : (
             <input
               name="birth date"
               type="date"
-              value={newPatient.birth_date}
+              value={legalDate(newPatient.birth_date)}
               onChange={handleInputChange}
             />
           )}
@@ -115,12 +128,12 @@ const NewPatientModal = ({
         <div>
           <label>Positive result date</label>
           {isReadOnly ? (
-            <label>{newPatient.positive_result_date}</label>
+            <label>{formattedDate(newPatient.positive_result_date)}</label>
           ) : (
             <input
               name="Positive result date"
               type="date"
-              value={newPatient.positive_result_date}
+              value={legalDate(newPatient.positive_result_date)}
               onChange={handleInputChange}
             />
           )}
@@ -128,12 +141,12 @@ const NewPatientModal = ({
         <div>
           <label>Recovery date</label>
           {isReadOnly ? (
-            <label>{newPatient.recovery_date}</label>
+            <label>{formattedDate(newPatient.recovery_date)}</label>
           ) : (
             <input
               name="Recovery date"
               type="date"
-              value={newPatient.recovery_date}
+              value={legalDate(newPatient.recovery_date)}
               onChange={handleInputChange}
             />
           )}

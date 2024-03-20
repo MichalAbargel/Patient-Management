@@ -109,6 +109,18 @@ const Patients = () => {
     }
   };
 
+  const savePatient = () => {
+    if (editingIndex === -1) {
+      // Mode:add new patient
+      addPatient();
+    } else {
+      if (newPatient.id) {
+        // Send a request to the server to update the patient
+        updatePatient(newPatient.id);
+      }
+    }
+  };
+
   const deletePatient = async (id) => {
     try {
       const response = await fetch(`${URL}/${id}`, {
@@ -135,22 +147,18 @@ const Patients = () => {
     }
   };
 
+  const formattedDate = (date) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
+
   useEffect(() => {
     // Get patients from the server
     getPatients();
   }, []);
-
-  const savePatient = () => {
-    if (editingIndex === -1) {
-      // Mode:add new patient
-      addPatient();
-    } else {
-      if (newPatient.id) {
-        // Send a request to the server to update the patient
-        updatePatient(newPatient.id);
-      }
-    }
-  };
 
   return (
     <div>
@@ -173,7 +181,7 @@ const Patients = () => {
                 <tr key={index}>
                   <td>{patient.id}</td>
                   <td>{patient.name}</td>
-                  <td>{patient.birth_date}</td>
+                  <td>{formattedDate(patient.birth_date)}</td>
                   <td>{patient.city}</td>
                   <td>
                     <button
