@@ -7,11 +7,10 @@ const NewPatientModal = ({
   newPatient,
   setNewPatient,
   deletePatient,
-  addingMode,
+  isReadOnly,
 }) => {
   // TODO - API for cities?
   const sitysList = ["Tel Aviv", "Jerusalem"];
-  const [isReadOnly, setIsReadOnly] = useState(!addingMode);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -144,7 +143,6 @@ const NewPatientModal = ({
         </div>
         <div>
           <label>Positive result date</label>
-          {console.log(newPatient.positive_result_date)}
           {isReadOnly ? (
             <label>{formattedDate(newPatient.positive_result_date)}</label>
           ) : (
@@ -181,16 +179,9 @@ const NewPatientModal = ({
           >
             Save
           </button>
-          {!addingMode && (
-            <button
-              onClick={() => {
-                setIsReadOnly(false);
-              }}
-            >
-              Edit
-            </button>
-          )}
-          {!addingMode && (
+          {console.log("isReadOnly:", isReadOnly)}
+          {!isReadOnly && <button>Edit</button>}
+          {!isReadOnly && (
             <button
               onClick={() => {
                 deletePatient();

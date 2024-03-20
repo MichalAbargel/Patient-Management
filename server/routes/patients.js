@@ -38,8 +38,6 @@ router.get("/", (req, res) => {
         console.error("Error executing query:", err);
         //500 - Internal server error
         return res.status(500).send("An error occurred");
-      } else if (results.length === 0) {
-        return res.status(404).send(`No patients found`);
       } else {
         console.log(results);
         res.json(results);
@@ -67,8 +65,6 @@ router.get("/:id", (req, res) => {
         console.error("Error executing query:", err);
         //500 - Internal server error
         return res.status(500).send("An error occurred");
-      } else if (results.length === 0) {
-        return res.status(404).send(`No patients found for the id: ${id}`);
       } else {
         console.log(results);
         res.json(results);

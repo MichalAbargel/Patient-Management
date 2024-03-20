@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NewPatientModal from "./newPatientModal";
+import Vaccinations from "../vaccinations/vaccinations";
 const Patients = () => {
   const URL = "http://localhost:3500/api/patients/";
   const [patients, setPatients] = useState([]);
@@ -38,7 +39,6 @@ const Patients = () => {
           "Content-Type": "application/json",
         },
       });
-
       if (response.ok) {
         const responseData = await response.json();
         if (responseData.length > 0) {
@@ -160,6 +160,27 @@ const Patients = () => {
     });
   };
 
+  const openModalToShowPatient = async (index) => {
+    await new Promise(() => {
+      console.log("openModalToShowPatient");
+      setEditingIndex(index);
+      setAddingMode(false);
+      const showPatient = [...patients][index];
+      setNewPatient(showPatient);
+      openModal();
+    });
+  };
+
+  const openModalToAddNewPatient = async () => {
+    await new Promise(() => {
+      console.log("openModalToAddNewPatient");
+      setAddingMode(true);
+      setNewPatient(defaultPatient);
+      openModal();
+    });
+    console.log(addingMode);
+  };
+
   useEffect(() => {
     // Get patients from the server
     getPatients();
@@ -191,11 +212,7 @@ const Patients = () => {
                   <td>
                     <button
                       onClick={() => {
-                        setEditingIndex(index);
-                        setAddingMode(false);
-                        const showPatient = [...patients][index];
-                        setNewPatient(showPatient);
-                        openModal();
+                        openModalToShowPatient(index);
                       }}
                     >
                       Show More
@@ -209,10 +226,7 @@ const Patients = () => {
       {/* Button to open the modal */}
       <button
         onClick={() => {
-          setAddingMode(true);
-          console.log("set true");
-          setNewPatient(defaultPatient);
-          openModal();
+          openModalToAddNewPatient();
         }}
       >
         Add New Patient
@@ -226,9 +240,12 @@ const Patients = () => {
           newPatient={newPatient}
           setNewPatient={setNewPatient}
           deletePatient={deletePatient}
-          addingMode={addingMode}
+          isReadOnly={!addingMode}
         ></NewPatientModal>
       )}
+      <div>
+        {isModalOpen && <Vaccinations patient={newPatient}></Vaccinations>}
+      </div>
     </div>
   );
 };
