@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ResponsiveAppBar from "./ResponsiveAppBar";
+import Patients from "../patients/patients";
 
 const Menu = () => {
   const [activeTab, setActiveTab] = useState(0);
   const navigate = useNavigate();
-
-  
 
   return (
     <div>
@@ -17,7 +16,7 @@ const Menu = () => {
       {/* Tab content */}
       <div>
         {activeTab === 0}
-        {activeTab === 1}
+        {activeTab === 1 && <Patients></Patients>}
         {activeTab === 2}
         {activeTab === 3}
       </div>
