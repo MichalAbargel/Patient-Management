@@ -10,7 +10,6 @@ const Vaccinations = ({ patient }) => {
   const [vaccinationList, setVaccinationList] = useState([]);
 
   const getVaccinations = async () => {
-    console.log(patient.id);
     if (patient.id != undefined) {
       try {
         const response = await fetch(`${URL}/${patient.id}`, {
@@ -46,7 +45,6 @@ const Vaccinations = ({ patient }) => {
   const handleInputChangeVac = (event) => {
     const { name, value } = event.target;
     const finalValue = value;
-    console.log(finalValue);
     setNewVaccination((prev) => ({ ...prev, [name]: finalValue }));
   };
 

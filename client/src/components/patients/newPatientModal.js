@@ -15,7 +15,6 @@ const NewPatientModal = ({
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     const finalValue = value;
-    console.log(finalValue);
     setNewPatient((prev) => ({ ...prev, [name]: finalValue }));
   };
 
@@ -179,7 +178,6 @@ const NewPatientModal = ({
           >
             Save
           </button>
-          {console.log("isReadOnly:", isReadOnly)}
           {!isReadOnly && <button>Edit</button>}
           {!isReadOnly && (
             <button

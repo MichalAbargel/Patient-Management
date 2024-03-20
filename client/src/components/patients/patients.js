@@ -48,7 +48,7 @@ const Patients = () => {
         setPatients(null);
       }
     } catch (error) {
-      // console.log("Error fetching data:", error);
+      alert("Error fetching data");
     }
   };
 
@@ -162,7 +162,6 @@ const Patients = () => {
 
   const openModalToShowPatient = async (index) => {
     await new Promise(() => {
-      console.log("openModalToShowPatient");
       setEditingIndex(index);
       setAddingMode(false);
       const showPatient = [...patients][index];
@@ -173,12 +172,10 @@ const Patients = () => {
 
   const openModalToAddNewPatient = async () => {
     await new Promise(() => {
-      console.log("openModalToAddNewPatient");
       setAddingMode(true);
       setNewPatient(defaultPatient);
       openModal();
     });
-    console.log(addingMode);
   };
 
   useEffect(() => {
