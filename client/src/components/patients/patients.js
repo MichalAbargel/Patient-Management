@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from "react";
 import NewPatientModal from "./newPatientModal";
-import Vaccinations from "../vaccinations/vaccinations";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import MoreHoriz from "@mui/icons-material/MoreHoriz";
+
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+
 const Patients = () => {
   const URL = "http://localhost:3500/api/patients/";
   const [patients, setPatients] = useState([]);
@@ -69,8 +83,10 @@ const Patients = () => {
         // Handle duplicate entry error
         if (response.status === 409) {
           alert("Patient is already exists");
-        } else {
+        } else if (response.status === 400) {
           // Handle other server-side errors
+          alert("Required fields are missing");
+        } else {
           alert(
             "An error occurred while adding the new patient. Please try again."
           );
@@ -184,66 +200,76 @@ const Patients = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Patients In System</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>City</th>
-            <th>Birth Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {patients &&
-            Array.isArray(patients) &&
-            patients.map((patient, index) => {
-              return (
-                <tr key={index}>
-                  <td>{patient.id}</td>
-                  <td>{patient.name}</td>
-                  <td>{formattedDate(patient.birth_date)}</td>
-                  <td>{patient.city}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        openModalToShowPatient(index);
-                      }}
+    <Container maxWidth="md">
+      <Box>
+        <h1>Patients In System</h1>
+        <TableContainer sx={{ maxWidth: 850 }} component={Paper}>
+          <Table sx={{ maxWidth: 850 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">ID</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Birth Date</TableCell>
+                <TableCell align="left">City</TableCell>
+                <TableCell align="left">More</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {patients &&
+                Array.isArray(patients) &&
+                patients.map((patient, index) => {
+                  return (
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      Show More
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
-      {/* Button to open the modal */}
-      <button
-        onClick={() => {
-          openModalToAddNewPatient();
-        }}
-      >
-        Add New Patient
-      </button>
-      {/* Open NewAbility Modal */}
-      {isModalOpen && (
-        <NewPatientModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          savePatient={savePatient}
-          newPatient={newPatient}
-          setNewPatient={setNewPatient}
-          deletePatient={deletePatient}
-          isReadOnly={!addingMode}
-        ></NewPatientModal>
-      )}
-      <div>
-        {isModalOpen && <Vaccinations patient={newPatient}></Vaccinations>}
-      </div>
-    </div>
+                      <TableCell align="left">{patient.id}</TableCell>
+                      <TableCell align="left">{patient.name}</TableCell>
+                      <TableCell align="left">
+                        {formattedDate(patient.birth_date)}
+                      </TableCell>
+                      <TableCell align="left">{patient.city}</TableCell>
+                      <TableCell align="left">
+                        <IconButton
+                          aria-label="more"
+                          color="primary"
+                          onClick={() => {
+                            openModalToShowPatient(index);
+                          }}
+                        >
+                          <MoreHoriz />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {/* Button to open the modal */}
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            openModalToAddNewPatient();
+          }}
+        >
+          Add New Patient
+        </Button>
+        {/* Open NewAbility Modal */}
+        {isModalOpen && (
+          <NewPatientModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            savePatient={savePatient}
+            newPatient={newPatient}
+            setNewPatient={setNewPatient}
+            deletePatient={deletePatient}
+            isReadOnly={!addingMode}
+          ></NewPatientModal>
+        )}
+      </Box>
+    </Container>
   );
 };
 export default Patients;
