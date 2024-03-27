@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import UserHomePage from "./components/UserHome/UserHomePage";
+import Patients from "./components/patients/patients";
 
 function App() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<UserHomePage></UserHomePage>} />
-      <Route path="/patients/:id" />
+      <Route path="/patients" />
       <Route path="/statistics" />
     </Routes>
   );
