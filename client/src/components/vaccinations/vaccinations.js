@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from "react";
 
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
+
 const Vaccinations = ({ patient }) => {
   const URL = "http://localhost:3500/api/vaccinations/";
   const [vaccinationAddingMode, setVaccinationAddingMode] = useState(false);
@@ -132,38 +143,47 @@ const Vaccinations = ({ patient }) => {
     <div>
       <div>
         <h2>{"Vaccinations List"}</h2>
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Received on:</th>
-                <th>Manufacturer</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
+        <TableContainer sx={{ maxWidth: 850 }} component={Paper}>
+          <Table sx={{ maxWidth: 850 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">Received on</TableCell>
+                <TableCell align="left">Manufacturer</TableCell>
+                <TableCell align="left">Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
               {vaccinationList &&
                 Array.isArray(vaccinationList) &&
                 vaccinationList.map((vaccination, index) => {
                   return (
-                    <tr key={index}>
-                      <td>{formattedDate(vaccination.vac_date)}</td>
-                      <td>{vaccination.vac_manufacturer}</td>
-                      <td>
-                        <button
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell align="left">
+                        {formattedDate(vaccination.vac_date)}
+                      </TableCell>
+                      <TableCell align="left">
+                        {vaccination.vac_manufacturer}
+                      </TableCell>
+                      <TableCell align="left">
+                        <IconButton
+                          aria-label="delete"
+                          color="error"
                           onClick={() => {
                             deleteVaccination(vaccination.id, index);
                           }}
                         >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
                   );
                 })}
-            </tbody>
-          </table>
-        </div>
+            </TableBody>
+          </Table>
+        </TableContainer>
         <div>
           {vaccinationAddingMode && (
             <div>
@@ -191,19 +211,21 @@ const Vaccinations = ({ patient }) => {
                     addVaccination();
                   }}
                 >
-                  +
+                  Save
                 </button>
               </div>
             </div>
           )}
-          <button
+          <IconButton
+            aria-label="Add Vaccination"
+            color="primary"
             disabled={vaccinationList && vaccinationList.length >= 4}
             onClick={() => {
               setVaccinationAddingMode(true);
             }}
           >
-            Add vaccination
-          </button>
+            <AddIcon />
+          </IconButton>
         </div>
       </div>
     </div>
