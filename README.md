@@ -12,7 +12,7 @@
 ![image](https://github.com/MichalAbargel/Patient-Management/assets/73194579/48bcdbb4-9980-4049-9211-8a907811330a)
 
 # Adding a new vaccine to the patient:
-![image](https://github.com/MichalAbargel/Patient-Management/assets/73194579/953051b6-8fea-4dd1-8ac4-82da5b59d10d)
+![image](https://github.com/MichalAbargel/Patient-Management/assets/73194579/67a71a08-516c-472c-bced-643663cc146b)
 
 # Statistics:
 **![image](https://github.com/MichalAbargel/Patient-Management/assets/73194579/1f1b3b78-af77-444c-968e-f1596cae5750)
