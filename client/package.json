@@ -8,6 +8,7 @@
     "@hookform/resolvers": "^3.2.0",
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
+    "@mui/x-charts": "^7.0.0",
     "@mui/x-date-pickers": "^6.19.8",
     "@react-oauth/google": "^0.11.1",
     "@testing-library/jest-dom": "^5.17.0",
@@ -55,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-private-property-in-object": "^7.24.1",
     "eslint-config-react-app": "^7.0.1"
   }
 }
