@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
-import { Typography } from "@mui/material";
 
 const BasicLineChart = () => {
   const URL = "http://localhost:3500/api/statistics/activePatients";
@@ -42,9 +41,6 @@ const BasicLineChart = () => {
   }, []);
   return (
     <div>
-      <Typography variant="h3" align="left">
-        Active Patients
-      </Typography>
       {xVals != null && yVals != null && (
         <LineChart
           xAxis={[{ scaleType: "point", data: xVals, label: "Day In Month" }]}

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import BasicLineChart from "./BasicLineChart";
+import { Typography } from "@mui/material";
 
 const Statistics = () => {
-
   return (
     <div>
-      <h1>Statistics</h1>
+      <Typography variant="h3" align="center">
+        Statistics
+      </Typography>
       <BasicLineChart></BasicLineChart>
     </div>
   );

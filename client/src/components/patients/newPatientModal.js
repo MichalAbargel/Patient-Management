@@ -77,11 +77,36 @@ const NewPatientModal = ({
 
   return (
     <Box sx={style}>
-      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-        <h2>{newPatient.name === "" ? "New Patient" : newPatient.name}</h2>
+      <Box
+        sx={
+          editingMode
+            ? { display: "flex", flexWrap: "wrap" }
+            : {
+                bgcolor: "background.paper",
+                boxShadow: 1,
+                borderRadius: 2,
+                p: 2,
+                minWidth: 300,
+              }
+        }
+      >
+        <Box sx={{ color: "text.primary", fontSize: 50, fontWeight: "medium" }}>
+          {newPatient.name === "" ? "New Patient" : newPatient.name}
+        </Box>
         <div>
           {!editingMode ? (
-            <label>{newPatient.id}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>ID: </label>
+              <label>{newPatient.id}</label>
+            </Box>
           ) : (
             <TextField
               name="id"
@@ -97,7 +122,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{newPatient.name}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>Name: </label>
+              <label>{newPatient.name}</label>
+            </Box>
           ) : (
             <TextField
               name="name"
@@ -113,7 +149,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{newPatient.city}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>City: </label>
+              <label>{newPatient.city}</label>
+            </Box>
           ) : (
             <TextField
               id="city"
@@ -135,7 +182,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{newPatient.address}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>Address: </label>
+              <label>{newPatient.address}</label>
+            </Box>
           ) : (
             <TextField
               name="address"
@@ -151,7 +209,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{formattedDate(newPatient.birth_date)}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>Birth Date: </label>
+              <label>{formattedDate(newPatient.birth_date)}</label>
+            </Box>
           ) : (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer
@@ -185,7 +254,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{newPatient.phone}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>Phone: </label>
+              <label>{newPatient.phone}</label>
+            </Box>
           ) : (
             <TextField
               name="phone"
@@ -201,7 +281,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{newPatient.mobile_phone}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>Mobile: </label>
+              <label>{newPatient.mobile_phone}</label>
+            </Box>
           ) : (
             <TextField
               name="mobile_phone"
@@ -217,7 +308,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{formattedDate(newPatient.positive_result_date)}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>Positive result date: </label>
+              <label>{formattedDate(newPatient.positive_result_date)}</label>
+            </Box>
           ) : (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer
@@ -252,7 +354,18 @@ const NewPatientModal = ({
         </div>
         <div>
           {!editingMode ? (
-            <label>{formattedDate(newPatient.recovery_date)}</label>
+            <Box
+              sx={{
+                color: "text.secondary",
+                fontSize: 20,
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "10px",
+              }}
+            >
+              <label>Recovery date: </label>
+              <label>{formattedDate(newPatient.recovery_date)}</label>
+            </Box>
           ) : (
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer
@@ -285,10 +398,10 @@ const NewPatientModal = ({
             </LocalizationProvider>
           )}
         </div>
-        <div>
-          {newPatient && <Vaccinations patient={newPatient}></Vaccinations>}
-        </div>
       </Box>
+      <div>
+        {newPatient && <Vaccinations patient={newPatient}></Vaccinations>}
+      </div>
       <div>
         {isReadOnly && (
           <IconButton

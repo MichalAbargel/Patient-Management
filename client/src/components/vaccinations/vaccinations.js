@@ -211,13 +211,13 @@ const Vaccinations = ({ patient }) => {
                     addVaccination();
                   }}
                 >
-                  +
+                  Save
                 </button>
               </div>
             </div>
           )}
           <IconButton
-            aria-label="cancel"
+            aria-label="Add Vaccination"
             color="primary"
             disabled={vaccinationList && vaccinationList.length >= 4}
             onClick={() => {
