@@ -135,25 +135,6 @@ router.post("/", (req, res) => {
             .status(500)
             .send("An error occurred while executing the query");
         }
-        // // Execute SQL query to insert new patient vaccinations info
-        // // up to 4 times
-        // for (let i = 0; i < vaccinations.lenght; i++) {
-        //   const query =
-        //     "INSERT INTO vaccinations (patient_id, vac_date, vac_manufacturer) VALUES (?, ?, ?, ?, ?, ?)";
-        //   connection.query(
-        //     query,
-        //     [id, vaccinations[i].vac_date, vaccinations[i].vac_manufacturer],
-        //     (err, v_results) => {
-        //       connection.release();
-        //       if (err) {
-        //         console.error("Error executing query:", err);
-        //         return res
-        //           .status(500)
-        //           .send("An error occurred while executing the query");
-        //       }
-        //     }
-        //   );
-        // }
         res.status(201).send({ id: results.insertId });
       }
     );
