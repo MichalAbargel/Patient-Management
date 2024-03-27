@@ -13,7 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const menu = ["User Details", "Patients", "Statistics"];
+const menu = ["Patients", "Statistics"];
 const settings = ["Logout"];
 
 const ResponsiveAppBar = ({ setActiveTab }) => {
@@ -43,7 +43,6 @@ const ResponsiveAppBar = ({ setActiveTab }) => {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -98,7 +97,6 @@ const ResponsiveAppBar = ({ setActiveTab }) => {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },

@@ -16,10 +16,9 @@ const Menu = () => {
       </div>
       {/* Tab content */}
       <div>
-        {activeTab === 0}
-        {activeTab === 1 && <Patients></Patients>}
-        {activeTab === 2 && <Statistics></Statistics>}
-        {activeTab === 3}
+        {activeTab === 0 && <Patients></Patients>}
+        {activeTab === 1 && <Statistics></Statistics>}
+        {activeTab === 2}
       </div>
     </div>
   );

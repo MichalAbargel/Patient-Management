@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import BasicLineChart from "./BasicLineChart";
-import { Typography } from "@mui/material";
+import BasicBars from "./BasicBars";
+import { Typography, Box } from "@mui/material";
 
 const Statistics = () => {
   return (
@@ -8,7 +9,10 @@ const Statistics = () => {
       <Typography variant="h3" align="center">
         Statistics
       </Typography>
-      <BasicLineChart></BasicLineChart>
+      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+        <BasicLineChart></BasicLineChart>
+        <BasicBars></BasicBars>
+      </Box>
     </div>
   );
 };

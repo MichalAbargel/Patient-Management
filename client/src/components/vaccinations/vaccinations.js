@@ -10,6 +10,14 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
+import Box from "@mui/material/Box";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TextField from "@mui/material/TextField";
+import dayjs from "dayjs";
+import DoneIcon from "@mui/icons-material/Done";
 
 const Vaccinations = ({ patient }) => {
   const URL = "http://localhost:3500/api/vaccinations/";
@@ -57,6 +65,10 @@ const Vaccinations = ({ patient }) => {
     const { name, value } = event.target;
     const finalValue = value;
     setNewVaccination((prev) => ({ ...prev, [name]: finalValue }));
+  };
+
+  const handleDatesChange = (name, value) => {
+    setNewVaccination((prev) => ({ ...prev, [name]: value }));
   };
 
   const addVaccination = async () => {
@@ -186,35 +198,66 @@ const Vaccinations = ({ patient }) => {
         </TableContainer>
         <div>
           {vaccinationAddingMode && (
-            <div>
+            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               <div>
-                <label>Received on:</label>
-                <input
-                  name="vac_date"
-                  type="date"
-                  value={newVaccination.vac_date}
-                  onChange={handleInputChangeVac}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={[
+                      "DatePicker",
+                      "TimePicker",
+                      "DateTimePicker",
+                      "DateRangePicker",
+                    ]}
+                  >
+                    <DemoItem>
+                      <DatePicker
+                        name="vac_date"
+                        lable="Received on"
+                        type="date"
+                        format="DD/MM/YYYY"
+                        value={dayjs(legalDate(newVaccination.vac_date))}
+                        onChange={(newValue) => {
+                          handleDatesChange("vac_date", newValue);
+                        }}
+                      />
+                    </DemoItem>
+                  </DemoContainer>
+                </LocalizationProvider>
               </div>
               <div>
-                <label>Manufacturer:</label>
-                <input
+                <TextField
                   name="vac_manufacturer"
+                  id="vac_manufacturer"
+                  label="Manufacturer"
                   type="text"
                   value={newVaccination.vac_manufacturer}
+                  variant="outlined"
+                  error={
+                    !/^[a-zA-Z \-]*$/.test(newVaccination.vac_manufacturer)
+                  }
+                  onError={() => {}}
+                  helperText={
+                    !/^[a-zA-Z \-]*$/.test(newVaccination.vac_manufacturer)
+                      ? "Letters only"
+                      : ""
+                  }
                   onChange={handleInputChangeVac}
+                  sx={{ m: 1, width: "20ch" }}
                 />
               </div>
               <div>
-                <button
+                <IconButton
+                  aria-label="Save"
+                  variant="Contained"
+                  color="success"
                   onClick={() => {
                     addVaccination();
                   }}
                 >
-                  Save
-                </button>
+                  <DoneIcon />
+                </IconButton>
               </div>
-            </div>
+            </Box>
           )}
           <IconButton
             aria-label="Add Vaccination"
