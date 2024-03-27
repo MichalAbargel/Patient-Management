@@ -1,6 +1,7 @@
 # Patient-Management
 
 ### There is no management of connection and registration to the website (not required in the exercise file)
+### Solutions to exercises 2 and 3 are [here](https://github.com/MichalAbargel/Patient-Management/tree/main/Exercises%20(2%2C%203))
 
 ## Installation
 1. Clone the code from [here](https://github.com/MichalAbargel/Patient-Management.git)
