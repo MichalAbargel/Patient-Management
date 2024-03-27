@@ -1,6 +1,7 @@
 # Patient-Management
-**Discount according to the details in the file:
-**It is not required to manage a connection and registration to the website
+
+# Discount according to the details in the file: It is not required to manage a connection and registration to the website
+
 **Patients In System
 **![image](https://github.com/MichalAbargel/Patient-Management/assets/73194579/98e5f930-9586-463a-beb3-a4735fa5a51a)
 **Displaying additional patient details (with options to edit and delete):
