@@ -3,6 +3,22 @@ const router = express.Router();
 router.use(express.json());
 const db = require("../database/db");
 
+const legalDate = (inputDate) => {
+  if (inputDate != null || inputDate != "") {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+    const str = `${year}-${month}-${day}`;
+    if (str === `NaN-NaN-NaN`) {
+      return null;
+    } else {
+      return str;
+    }
+  }
+  return null;
+};
+
 // GET all vaccinations for patient
 router.get("/:p_id", (req, res) => {
   const p_id = req.params.p_id;
@@ -57,7 +73,7 @@ router.post("/:p_id", (req, res) => {
     // Execute SQL query to insert new patient
     connection.query(
       query,
-      [p_id, vac_date, vac_manufacturer],
+      [p_id, legalDate(vac_date), vac_manufacturer],
       (err, results) => {
         connection.release();
         if (err) {

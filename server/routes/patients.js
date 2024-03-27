@@ -110,34 +110,46 @@ router.post("/", (req, res) => {
         .status(500)
         .send("An error occurred while connecting to the database");
     }
-    // Prepare SQL query
-    const query =
-      "INSERT INTO patients (id, name, city, address, birth_date, phone, mobile_phone, positive_result_date, recovery_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    // Execute SQL query to insert new patient
-    connection.query(
-      query,
-      [
-        id,
-        name,
-        city,
-        address,
-        legalDate(birth_date),
-        phone,
-        mobile_phone,
-        legalDate(positive_result_date),
-        legalDate(recovery_date),
-      ],
-      (err, results) => {
-        connection.release();
-        if (err) {
-          console.error("Error executing query:", err);
-          return res
-            .status(500)
-            .send("An error occurred while executing the query");
-        }
-        res.status(201).send({ id: results.insertId });
+
+    //check if patient alrady exist
+    query = "SELECT * FROM patients WHERE id = ?";
+    connection.query(query, [id], (err, results) => {
+      connection.release();
+      if (err) {
+        console.error("Error executing query:", err);
+        return res.status(500).send("An error occurred");
+      } else if (results.length > 0) {
+        console.log(results);
+        res.status(409).send(`Patient with id: ${id} alredy exist`);
+      } else {
+        const query =
+          "INSERT INTO patients (id, name, city, address, birth_date, phone, mobile_phone, positive_result_date, recovery_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        connection.query(
+          query,
+          [
+            id,
+            name,
+            city,
+            address,
+            legalDate(birth_date),
+            phone,
+            mobile_phone,
+            legalDate(positive_result_date),
+            legalDate(recovery_date),
+          ],
+          (err, results) => {
+            connection.release();
+            if (err) {
+              console.error("Error executing query:", err);
+              res
+                .status(500)
+                .send("An error occurred while executing the query");
+            }
+            res.status(201).send({ id: results.insertId });
+          }
+        );
       }
-    );
+    });
   });
 });
 
