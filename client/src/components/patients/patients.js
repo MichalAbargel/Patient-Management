@@ -266,6 +266,7 @@ const Patients = () => {
             setNewPatient={setNewPatient}
             deletePatient={deletePatient}
             isReadOnly={!addingMode}
+            addingMode={addingMode}
           ></NewPatientModal>
         )}
       </Box>

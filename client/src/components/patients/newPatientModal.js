@@ -23,13 +23,14 @@ const NewPatientModal = ({
   setNewPatient,
   deletePatient,
   isReadOnly,
+  addingMode,
 }) => {
   const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 680,
+    width: 600,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -47,7 +48,6 @@ const NewPatientModal = ({
   };
 
   const handleDatesChange = (name, value) => {
-    console.log(name, value);
     setNewPatient((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -67,16 +67,13 @@ const NewPatientModal = ({
     return `${year}-${month}-${day}`;
   };
 
-  function Label({ componentName, valueType, isProOnly }) {
-    const content = <span>{componentName}</span>;
-
-    return content;
-  }
-
   if (!isOpen) return null;
 
   return (
     <Box sx={style}>
+      <Box sx={{ color: "text.primary", fontSize: 50, fontWeight: "medium" }}>
+        {newPatient.name === "" ? "New Patient" : newPatient.name}
+      </Box>
       <Box
         sx={
           editingMode
@@ -90,9 +87,6 @@ const NewPatientModal = ({
               }
         }
       >
-        <Box sx={{ color: "text.primary", fontSize: 50, fontWeight: "medium" }}>
-          {newPatient.name === "" ? "New Patient" : newPatient.name}
-        </Box>
         <div>
           {!editingMode ? (
             <Box
@@ -115,6 +109,8 @@ const NewPatientModal = ({
               type="text"
               value={newPatient.id}
               variant="outlined"
+              error={!/^\d+$/.test(newPatient.id)}
+              helperText={!/^\d+$/.test(newPatient.id) ? "Numbers only" : ""}
               onChange={handleInputChange}
               sx={{ m: 1, width: "20ch" }}
             />
@@ -142,6 +138,10 @@ const NewPatientModal = ({
               type="text"
               value={newPatient.name}
               variant="outlined"
+              error={!/^[a-zA-Z \-]*$/.test(newPatient.name)}
+              helperText={
+                !/^[a-zA-Z \-]*$/.test(newPatient.name) ? "Letters only" : ""
+              }
               onChange={handleInputChange}
               sx={{ m: 1, width: "20ch" }}
             />
@@ -202,6 +202,12 @@ const NewPatientModal = ({
               type="text"
               value={newPatient.address}
               variant="outlined"
+              error={!/^[a-zA-Z \-\d]*$/.test(newPatient.address)}
+              helperText={
+                !/^[a-zA-Z \-\d]*$/.test(newPatient.address)
+                  ? "Letters and numbers only"
+                  : ""
+              }
               onChange={handleInputChange}
               sx={{ m: 1, width: "20ch" }}
             />
@@ -231,18 +237,12 @@ const NewPatientModal = ({
                   "DateRangePicker",
                 ]}
               >
-                <DemoItem
-                  label={
-                    <Label
-                      id="birth_date"
-                      label="Birth Date"
-                      componentName="Birth Date"
-                      valueType="date"
-                    />
-                  }
-                >
+                <DemoItem>
                   <DatePicker
+                    sx={{ m: 1, width: "20ch" }}
                     value={dayjs(legalDate(newPatient.birth_date))}
+                    format="DD/MM/YYYY"
+                    label="Birth Date"
                     onChange={(newValue) => {
                       handleDatesChange("birth_date", newValue);
                     }}
@@ -274,6 +274,8 @@ const NewPatientModal = ({
               type="text"
               value={newPatient.phone}
               variant="outlined"
+              error={!/^\d+$/.test(newPatient.phone)}
+              helperText={!/^\d+$/.test(newPatient.phone) ? "Numbers only" : ""}
               onChange={handleInputChange}
               sx={{ m: 1, width: "20ch" }}
             />
@@ -301,6 +303,10 @@ const NewPatientModal = ({
               type="text"
               value={newPatient.mobile_phone}
               variant="outlined"
+              error={!/^\d+$/.test(newPatient.mobile_phone)}
+              helperText={
+                !/^\d+$/.test(newPatient.mobile_phone) ? "Numbers only" : ""
+              }
               onChange={handleInputChange}
               sx={{ m: 1, width: "20ch" }}
             />
@@ -330,19 +336,12 @@ const NewPatientModal = ({
                   "DateRangePicker",
                 ]}
               >
-                <DemoItem
-                  label={
-                    <Label
-                      id="positive_result_date"
-                      label="Positive result date"
-                      name="positive_result_date"
-                      componentName="Positive result date:"
-                      valueType="date"
-                    />
-                  }
-                >
+                <DemoItem>
                   <DatePicker
+                    sx={{ m: 1, width: "20ch" }}
+                    format="DD/MM/YYYY"
                     value={dayjs(legalDate(newPatient.positive_result_date))}
+                    label="Positive result date"
                     onChange={(newValue) => {
                       handleDatesChange("positive_result_date", newValue);
                     }}
@@ -376,19 +375,12 @@ const NewPatientModal = ({
                   "DateRangePicker",
                 ]}
               >
-                <DemoItem
-                  label={
-                    <Label
-                      id="recovery_date"
-                      label="Recovery date"
-                      name="recovery_date"
-                      componentName="Recovery date:"
-                      valueType="date"
-                    />
-                  }
-                >
+                <DemoItem>
                   <DatePicker
+                    sx={{ m: 1, width: "20ch" }}
+                    format="DD/MM/YYYY"
                     value={dayjs(legalDate(newPatient.recovery_date))}
+                    label="Recovery date"
                     onChange={(newValue) => {
                       handleDatesChange("recovery_date", newValue);
                     }}
@@ -400,10 +392,15 @@ const NewPatientModal = ({
         </div>
       </Box>
       <div>
-        {newPatient && <Vaccinations patient={newPatient}></Vaccinations>}
+        {newPatient && (
+          <Vaccinations
+            patient={newPatient}
+            legalDate={legalDate}
+          ></Vaccinations>
+        )}
       </div>
       <div>
-        {isReadOnly && (
+        {isReadOnly  &&(
           <IconButton
             aria-label="edit"
             color="primary"
