@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Vaccinations from "../vaccinations/vaccinations";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -37,8 +37,7 @@ const NewPatientModal = ({
     p: 4,
   };
 
-  // TODO - API for cities?
-  const CitysList = ["Tel Aviv", "Jerusalem"];
+  const [CitysList, setCityList] = useState(["Tel Aviv", "Jerusalem"]);
   const [editingMode, setEditingMode] = useState(!isReadOnly);
 
   const handleInputChange = (event) => {
@@ -66,6 +65,34 @@ const NewPatientModal = ({
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+
+  const getCitiesList = async () => {
+    try {
+      console.log("getCitiesList");
+      const response = await fetch(
+        "https://data.gov.il/api/3/action/datastore_search?resource_id=b7cf8f14-64a2-4b33-8d4b-edb286fdbd37",
+        {
+          method: "GET",
+        }
+      );
+      if (response.ok) {
+        const responseData = await response.json();
+        const cityList = [];
+        for (var i = 0; i < responseData.result.records.length; i++) {
+          var d = responseData.result.records[i].שם_ישוב;
+          cityList.push(d);
+        }
+        setCityList(cityList);
+      } else {
+      }
+    } catch (error) {
+      alert("Error fetching data");
+    }
+  };
+
+  useEffect(() => {
+    getCitiesList();
+  }, []);
 
   if (!isOpen) return null;
 
@@ -400,7 +427,7 @@ const NewPatientModal = ({
         )}
       </div>
       <div>
-        {isReadOnly  &&(
+        {isReadOnly && (
           <IconButton
             aria-label="edit"
             color="primary"
