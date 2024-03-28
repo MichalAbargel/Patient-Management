@@ -232,8 +232,8 @@ router.delete("/:id", (req, res) => {
       return res.status(500).send("An error occurred");
     }
 
-    // Prepare and execute the SQL query
-    query = "DELETE FROM patients WHERE id = ?";
+    //First, Delete all vaccinations related to the patient
+    query = "DELETE FROM vaccinations WHERE p_id = ?";
     connection.query(query, [id], (err, results) => {
       connection.release();
       if (err) {
@@ -242,7 +242,18 @@ router.delete("/:id", (req, res) => {
           .status(500)
           .send("An error occurred while executing the query");
       }
-      res.status(200).send({ id: results.affectedRows });
+      // Prepare and execute the SQL query
+      query = "DELETE FROM patients WHERE id = ?";
+      connection.query(query, [id], (err, results) => {
+        connection.release();
+        if (err) {
+          console.error("Error executing query:", err);
+          return res
+            .status(500)
+            .send("An error occurred while executing the query");
+        }
+        res.status(200).send({ id: results.affectedRows });
+      });
     });
   });
 });
