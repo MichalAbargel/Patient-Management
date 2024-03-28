@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Menu from "../Menu/Menu";
+import ResponsiveAppBar from "../Menu/ResponsiveAppBar";
+import { Typography } from "@mui/material";
 
 const UserHomePage = () => {
-  const [user, setUser] = useState(null);
   return (
     <div>
-      <Menu></Menu>
+      {<ResponsiveAppBar></ResponsiveAppBar>}
+      <Typography variant="h2" align="center">
+        Patient Management System
+      </Typography>
     </div>
   );
 };

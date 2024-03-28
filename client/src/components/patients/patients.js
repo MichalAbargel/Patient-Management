@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NewPatientModal from "./newPatientModal";
+import ResponsiveAppBar from "../Menu/ResponsiveAppBar";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -204,77 +205,82 @@ const Patients = () => {
   }, []);
 
   return (
-    <Container maxWidth="md">
-      <Box>
-        <h1>Patients In System</h1>
-        <TableContainer sx={{ maxWidth: 850 }} component={Paper}>
-          <Table sx={{ maxWidth: 850 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">ID</TableCell>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="left">Birth Date</TableCell>
-                <TableCell align="left">City</TableCell>
-                <TableCell align="left">More</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {patients &&
-                Array.isArray(patients) &&
-                patients.map((patient, index) => {
-                  return (
-                    <TableRow
-                      key={index}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="left">{patient.id}</TableCell>
-                      <TableCell align="left">{patient.name}</TableCell>
-                      <TableCell align="left">
-                        {formattedDate(patient.birth_date)}
-                      </TableCell>
-                      <TableCell align="left">{patient.city}</TableCell>
-                      <TableCell align="left">
-                        <IconButton
-                          aria-label="more"
-                          color="primary"
-                          onClick={() => {
-                            openModalToShowPatient(index);
-                          }}
-                        >
-                          <MoreHoriz />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        {/* Button to open the modal */}
-        <Button
-          color="primary"
-          variant="contained"
-          onClick={() => {
-            openModalToAddNewPatient();
-          }}
-        >
-          Add New Patient
-        </Button>
-        {/* Open NewAbility Modal */}
-        {isModalOpen && (
-          <NewPatientModal
-            isOpen={isModalOpen}
-            onClose={closeModal}
-            savePatient={savePatient}
-            newPatient={newPatient}
-            setNewPatient={setNewPatient}
-            deletePatient={deletePatient}
-            isReadOnly={!addingMode}
-            addingMode={addingMode}
-          ></NewPatientModal>
-        )}
-      </Box>
-    </Container>
+    <div>
+      <ResponsiveAppBar></ResponsiveAppBar>
+      <Container maxWidth="md">
+        <Box>
+          <h1>Patients In System</h1>
+          <TableContainer sx={{ maxWidth: 850 }} component={Paper}>
+            <Table sx={{ maxWidth: 850 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">ID</TableCell>
+                  <TableCell align="left">Name</TableCell>
+                  <TableCell align="left">Birth Date</TableCell>
+                  <TableCell align="left">City</TableCell>
+                  <TableCell align="left">More</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {patients &&
+                  Array.isArray(patients) &&
+                  patients.map((patient, index) => {
+                    return (
+                      <TableRow
+                        key={index}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="left">{patient.id}</TableCell>
+                        <TableCell align="left">{patient.name}</TableCell>
+                        <TableCell align="left">
+                          {formattedDate(patient.birth_date)}
+                        </TableCell>
+                        <TableCell align="left">{patient.city}</TableCell>
+                        <TableCell align="left">
+                          <IconButton
+                            aria-label="more"
+                            color="primary"
+                            onClick={() => {
+                              openModalToShowPatient(index);
+                            }}
+                          >
+                            <MoreHoriz />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {/* Button to open the modal */}
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => {
+              openModalToAddNewPatient();
+            }}
+          >
+            Add New Patient
+          </Button>
+          {/* Open NewAbility Modal */}
+          {isModalOpen && (
+            <NewPatientModal
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              savePatient={savePatient}
+              newPatient={newPatient}
+              setNewPatient={setNewPatient}
+              deletePatient={deletePatient}
+              isReadOnly={!addingMode}
+              addingMode={addingMode}
+            ></NewPatientModal>
+          )}
+        </Box>
+      </Container>
+    </div>
   );
 };
 export default Patients;

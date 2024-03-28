@@ -12,12 +12,15 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
+import { useNavigate } from "react-router-dom";
+
 const menu = ["Patients", "Statistics"];
 const settings = ["Logout"];
 
-const ResponsiveAppBar = ({ setActiveTab }) => {
+const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,22 +41,27 @@ const ResponsiveAppBar = ({ setActiveTab }) => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Patient-Management
-          </Typography>
+          <MenuItem onClick={() => navigate("/")}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              onClick={() => {
+                navigate("/");
+              }}
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              PatientM
+            </Typography>{" "}
+          </MenuItem>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -85,43 +93,44 @@ const ResponsiveAppBar = ({ setActiveTab }) => {
               }}
             >
               {menu.map((page, index) => (
-                <MenuItem key={page} onClick={() => setActiveTab(index)}>
+                <MenuItem key={page} onClick={() => navigate(`/${page}`)}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            Patient-Management
-          </Typography>
+          <MenuItem onClick={() => navigate("/")}>
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              PatientM
+            </Typography>
+          </MenuItem>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {menu.map((page, index) => (
               <Button
                 key={page}
-                onClick={() => setActiveTab(index)}
+                onClick={() => navigate(`/${page}`)}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
+          {/* Profile icon and Logout (right side)*/}
+          {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -149,7 +158,7 @@ const ResponsiveAppBar = ({ setActiveTab }) => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>
