@@ -42,10 +42,44 @@ const NewPatientModal = ({
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    const finalValue = value;
-    setNewPatient((prev) => ({ ...prev, [name]: finalValue }));
+    setNewPatient((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validation = () => {
+    for (var prop in newPatient) {
+      console.log(prop);
+      switch (prop) {
+        case "name":
+          if (!/^[a-zA-Z \-]*$/.test(newPatient.name)) {
+            return false;
+          }
+          break;
+        case "id":
+          if (!/^\d+$/.test(newPatient.id)) {
+            return false;
+          }
+          break;
+        case "phone":
+          if (!/^\d+$/.test(newPatient.phone)) {
+            return false;
+          }
+          break;
+        case "mobile_phone":
+          if (!/^\d+$/.test(newPatient.mobile_phone)) {
+            return false;
+          }
+          break;
+        case "address":
+          if (!/^[a-zA-Z \-\d]*$/.test(newPatient.address)) {
+            return false;
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    return true;
+  };
   const handleDatesChange = (name, value) => {
     setNewPatient((prev) => ({ ...prev, [name]: value }));
   };
@@ -137,6 +171,9 @@ const NewPatientModal = ({
               value={newPatient.id}
               variant="outlined"
               error={!/^\d+$/.test(newPatient.id)}
+              onError={() => {
+                console.log("id");
+              }}
               helperText={!/^\d+$/.test(newPatient.id) ? "Numbers only" : ""}
               onChange={handleInputChange}
               sx={{ m: 1, width: "20ch" }}
@@ -462,7 +499,7 @@ const NewPatientModal = ({
           color="success"
           variant="outlined"
           onClick={() => {
-            savePatient();
+            savePatient(validation);
           }}
         >
           Save

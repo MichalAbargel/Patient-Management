@@ -128,15 +128,19 @@ const Patients = () => {
     }
   };
 
-  const savePatient = () => {
-    if (addingMode) {
-      // Mode:add new patient
-      addPatient();
-    } else {
-      if (newPatient.id) {
-        // Send a request to the server to update the patient
-        updatePatient();
+  const savePatient = (validation) => {
+    if (validation()) {
+      if (addingMode) {
+        // Mode:add new patient
+        addPatient();
+      } else {
+        if (newPatient.id) {
+          // Send a request to the server to update the patient
+          updatePatient();
+        }
       }
+    } else {
+      alert("Wrong details");
     }
   };
 
