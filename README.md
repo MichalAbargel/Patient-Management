@@ -6,7 +6,8 @@
 ## Installation
 1. Clone the code from [here](https://github.com/MichalAbargel/Patient-Management.git)
 2. **Client**: in the terminal run: npm install, npm start
-4. **Server**: in the terminal run: node server.js
+3. **Server**: in the terminal run: npm install, node server.js
+4. **Database**: No installations needed, external database
 
 ## Patients In System
 ![image](https://github.com/MichalAbargel/Patient-Management/assets/73194579/98e5f930-9586-463a-beb3-a4735fa5a51a)
