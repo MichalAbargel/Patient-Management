@@ -221,7 +221,7 @@ router.put("/:id", (req, res) => {
   });
 });
 
-// DELTET Techer (also delete user)
+// DELTET Patient 
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
   // Connect to the database
