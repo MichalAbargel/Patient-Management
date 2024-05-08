@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 import DoneIcon from "@mui/icons-material/Done";
 
 const Vaccinations = ({ patient }) => {
-  const URL = "http://localhost:3500/api/vaccinations/";
+  const URL = "https://patientsmanagement.azurewebsites.net/api/vaccinations/";
   const [vaccinationAddingMode, setVaccinationAddingMode] = useState(false);
   const [newVaccination, setNewVaccination] = useState({
     vac_date: "",

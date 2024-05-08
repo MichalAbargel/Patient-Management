@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { LineChart } from "@mui/x-charts/LineChart";
 
 const BasicLineChart = () => {
-  const URL = "http://localhost:3500/api/statistics/activePatients";
+  const URL =
+    "https://patientsmanagement.azurewebsites.net/api/statistics/activePatients";
   const [xVals, setXVals] = useState(null);
   const [yVals, setYVals] = useState(null);
 

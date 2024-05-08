@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 const BasicBars = ({ lable1, lable2 }) => {
-  const URL = "http://localhost:3500/api/statistics/getVaccinatedNumbers";
+  const URL =
+    "https://patientsmanagement.azurewebsites.net/api/statistics/getVaccinatedNumbers";
   const [vaccinatedCount, setVaccinatedCount] = useState(null);
   const [nonVaccinatedCount, setNonVaccinatedCount] = useState(null);
 

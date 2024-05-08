@@ -17,7 +17,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
 const Patients = () => {
-  const URL = "http://localhost:3500/api/patients/";
+  const URL = "https://patientsmanagement.azurewebsites.net/api/patients/";
   const [patients, setPatients] = useState([]);
   const defaultPatient = {
     name: "",
