@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy Node.js app to Azure Web App - patientsManagement
 
 on:
@@ -17,9 +20,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-
-      - name: Navigate to the 'server' directory
-        run: cd server
+          path: server
 
       - name: npm install, build, and test
         run: |
@@ -45,7 +46,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: node-app
-          path: server   # Specify the path to the 'server' folder here
       
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
