@@ -8,7 +8,6 @@ const BasicBars = ({ lable1, lable2 }) => {
   const [nonVaccinatedCount, setNonVaccinatedCount] = useState(null);
 
   const getVaccinatedNumbers = async () => {
-    console.log("getVaccinatedNumbers");
     try {
       const response = await fetch(`${URL}`, {
         method: "GET",
@@ -32,7 +31,6 @@ const BasicBars = ({ lable1, lable2 }) => {
 
   return (
     <div>
-      {console.log(vaccinatedCount, nonVaccinatedCount)}
       {vaccinatedCount != null && nonVaccinatedCount != null && (
         <BarChart
           xAxis={[

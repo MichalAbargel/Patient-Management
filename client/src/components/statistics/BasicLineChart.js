@@ -15,7 +15,6 @@ const BasicLineChart = () => {
       const day = String(date.getDate()).padStart(2, "0");
       newList.push(`${day}/${month}`);
     });
-    console.log(newList);
     return newList;
   };
 
@@ -33,7 +32,7 @@ const BasicLineChart = () => {
         setYVals(responseData.activePatientsCount);
       }
     } catch (error) {
-      console.log("Error fetching data", error);
+      //TODO Error handling
     }
   };
 

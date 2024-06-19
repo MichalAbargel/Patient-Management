@@ -47,7 +47,6 @@ const NewPatientModal = ({
 
   const validation = () => {
     for (var prop in newPatient) {
-      console.log(prop);
       switch (prop) {
         case "name":
           if (!/^[a-zA-Z \-]*$/.test(newPatient.name)) {
@@ -102,7 +101,6 @@ const NewPatientModal = ({
 
   const getCitiesList = async () => {
     try {
-      console.log("getCitiesList");
       const response = await fetch(
         "https://data.gov.il/api/3/action/datastore_search?resource_id=b7cf8f14-64a2-4b33-8d4b-edb286fdbd37",
         {
@@ -172,7 +170,7 @@ const NewPatientModal = ({
               variant="outlined"
               error={!/^\d+$/.test(newPatient.id)}
               onError={() => {
-                console.log("id");
+                //TODO Error handling
               }}
               helperText={!/^\d+$/.test(newPatient.id) ? "Numbers only" : ""}
               onChange={handleInputChange}
